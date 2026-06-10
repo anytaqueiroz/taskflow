@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TaskFlow — Squad Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">TaskFlow</span>
+      </div>
+      <button class="btn-new" onclick="openModal()">+ Nova Tarefa</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="board">
+
+      <!-- COLUNA: A FAZER -->
+      <div class="column col-todo">
+        <div class="col-header">
+          <span class="col-dot dot-todo"></span>
+          <h2>A Fazer</h2>
+          <span class="col-count">{{ tasks.todo | length }}</span>
+        </div>
+        <div class="cards">
+          {% for task in tasks.todo %}
+          <div class="card">
+            <div class="card-top">
+              <p class="card-title">{{ task.title }}</p>
+              <span class="badge badge-{{ task.priority }}">{{ task.priority | capitalize }}</span>
+            </div>
+            {% if task.description %}<p class="card-desc">{{ task.description }}</p>{% endif %}
+            <div class="card-footer">
+              <span class="card-date">{{ task.created_at.strftime('%d/%m/%Y') }}</span>
+              <div class="card-actions">
+                <form method="POST" action="/task/{{ task.id }}/status">
+                  <input type="hidden" name="status" value="doing">
+                  <button class="btn-move" title="Mover para Em Progresso">▶</button>
+                </form>
+                <form method="POST" action="/task/{{ task.id }}/delete">
+                  <button class="btn-del" title="Excluir">✕</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <p class="empty">Nenhuma tarefa aqui.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- COLUNA: EM PROGRESSO -->
+      <div class="column col-doing">
+        <div class="col-header">
+          <span class="col-dot dot-doing"></span>
+          <h2>Em Progresso</h2>
+          <span class="col-count">{{ tasks.doing | length }}</span>
+        </div>
+        <div class="cards">
+          {% for task in tasks.doing %}
+          <div class="card">
+            <div class="card-top">
+              <p class="card-title">{{ task.title }}</p>
+              <span class="badge badge-{{ task.priority }}">{{ task.priority | capitalize }}</span>
+            </div>
+            {% if task.description %}<p class="card-desc">{{ task.description }}</p>{% endif %}
+            <div class="card-footer">
+              <span class="card-date">{{ task.created_at.strftime('%d/%m/%Y') }}</span>
+              <div class="card-actions">
+                <form method="POST" action="/task/{{ task.id }}/status">
+                  <input type="hidden" name="status" value="todo">
+                  <button class="btn-move btn-back" title="Voltar para A Fazer">◀</button>
+                </form>
+                <form method="POST" action="/task/{{ task.id }}/status">
+                  <input type="hidden" name="status" value="done">
+                  <button class="btn-move" title="Mover para Concluído">▶</button>
+                </form>
+                <form method="POST" action="/task/{{ task.id }}/delete">
+                  <button class="btn-del" title="Excluir">✕</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <p class="empty">Nenhuma tarefa aqui.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- COLUNA: CONCLUÍDO -->
+      <div class="column col-done">
+        <div class="col-header">
+          <span class="col-dot dot-done"></span>
+          <h2>Concluído</h2>
+          <span class="col-count">{{ tasks.done | length }}</span>
+        </div>
+        <div class="cards">
+          {% for task in tasks.done %}
+          <div class="card card-done">
+            <div class="card-top">
+              <p class="card-title">{{ task.title }}</p>
+              <span class="badge badge-{{ task.priority }}">{{ task.priority | capitalize }}</span>
+            </div>
+            {% if task.description %}<p class="card-desc">{{ task.description }}</p>{% endif %}
+            <div class="card-footer">
+              <span class="card-date">{{ task.created_at.strftime('%d/%m/%Y') }}</span>
+              <div class="card-actions">
+                <form method="POST" action="/task/{{ task.id }}/status">
+                  <input type="hidden" name="status" value="doing">
+                  <button class="btn-move btn-back" title="Reabrir">◀</button>
+                </form>
+                <form method="POST" action="/task/{{ task.id }}/delete">
+                  <button class="btn-del" title="Excluir">✕</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <p class="empty">Nenhuma tarefa concluída.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL: Nova Tarefa -->
+  <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+    <div class="modal">
+      <h3>Nova Tarefa</h3>
+      <form method="POST" action="/task">
+        <label>Título <span class="required">*</span></label>
+        <input type="text" name="title" placeholder="Ex: Configurar Docker" required autofocus>
+        <label>Descrição</label>
+        <textarea name="description" placeholder="Detalhes opcionais..."></textarea>
+        <label>Prioridade</label>
+        <div class="priority-group">
+          <label class="priority-option">
+            <input type="radio" name="priority" value="baixa">
+            <span class="priority-btn p-baixa">Baixa</span>
+          </label>
+          <label class="priority-option">
+            <input type="radio" name="priority" value="media" checked>
+            <span class="priority-btn p-media">Média</span>
+          </label>
+          <label class="priority-option">
+            <input type="radio" name="priority" value="alta">
+            <span class="priority-btn p-alta">Alta</span>
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
+          <button type="submit" class="btn-submit">Criar Tarefa</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
