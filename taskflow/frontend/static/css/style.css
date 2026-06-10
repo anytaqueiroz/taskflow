@@ -322,3 +322,8 @@ main { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
 .priority-option input:checked + .priority-btn.p-media  { background: rgba(245,158,11,0.15); color: #f59e0b; border-color: #f59e0b; }
 .priority-option input:checked + .priority-btn.p-alta   { background: rgba(248,113,113,0.15); color: #f87171; border-color: #f87171; }
 .priority-btn:hover { border-color: var(--text-muted); color: var(--text); }
+/* PÁGINA DE CADASTRO */
+
+.modal {
+  margin-top: 40px;
+}

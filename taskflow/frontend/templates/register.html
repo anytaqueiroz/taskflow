@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - TaskFlow</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">TaskFlow</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="modal" style="margin: 40px auto;">
+    <h3>Criar Conta</h3>
+
+    <form method="POST">
+
+      <label>Nome</label>
+      <input
+        type="text"
+        name="name"
+        placeholder="Digite seu nome"
+        required
+      >
+
+      <label>Email</label>
+      <input
+        type="email"
+        name="email"
+        placeholder="Digite seu email"
+        required
+      >
+
+      <label>Senha</label>
+      <input
+        type="password"
+        name="password"
+        placeholder="Digite sua senha"
+        required
+      >
+
+      <div class="modal-actions">
+        <button type="submit" class="btn-submit">
+          Cadastrar
+        </button>
+      </div>
+
+    </form>
+  </div>
+</main>
+
+</body>
+</html>
