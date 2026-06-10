@@ -1,4 +1,4 @@
-name: CI — Docker Build
+name: CI - Docker Build
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do repositório
+      - name: Checkout do repositorio
         uses: actions/checkout@v4
 
       - name: Configurar Docker Buildx
@@ -23,5 +23,3 @@ jobs:
           context: .
           push: false
           tags: taskflow:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
