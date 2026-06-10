@@ -89,12 +89,12 @@ taskflow/
 
 ---
 
-## 👥 Membros da Squad
+## 👥 Membros do grupo
 
-| Nome | Função |
+| Nome | Matricula|
 |------|--------|
-| [Nome 1] | [Função] |
-| [Nome 2] | [Função] |
+| [Anyta da silva queiroz] | [01706122] |
+| [Mariaa biatriz ramos rodrigues] | [01717058] |
 
 
 ---
