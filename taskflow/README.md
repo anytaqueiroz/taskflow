@@ -2,7 +2,7 @@
 
 > Gerencie as tarefas da sua equipe em um board Kanban visual, simples e eficiente.
 
-![CI Badge](https://github.com/anytaqueiroz/taskflow/actions/workflows/ci.yml/badge.svg)
+[![CI - Docker Build](https://github.com/anytaqueiroz/taskflow/actions/workflows/ci.yml/badge.svg)](https://github.com/anytaqueiroz/taskflow/actions/workflows/ci.yml)
 
 ---
 
