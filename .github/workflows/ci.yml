@@ -20,6 +20,6 @@ jobs:
       - name: Build da imagem Docker
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./taskflow
           push: false
           tags: taskflow:latest
